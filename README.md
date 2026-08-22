@@ -6,7 +6,7 @@ Repositório com projetos e exercícios desenvolvidos durante meus estudos de Py
 
 | Projeto | Descrição |
 |---|---|
-| [calculadora-planejamento-financeiro](./calculadora-planejamento-financeiro) | Calculadora que ajuda a planejar como dividir o salário mensal, com base nos métodos 50/30/20 e 70/20/10. |
+| [calculadora-planejamento-financeiro](./projetos/calculadora-planejamento-financeiro) | Calculadora que ajuda a planejar como dividir o salário mensal, com base nos métodos 50/30/20 e 70/20/10. |
 
 ## 📚 Exercícios
 
