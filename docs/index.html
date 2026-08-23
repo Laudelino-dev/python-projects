@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Planejamento Financeiro</title>
+<style>
+  :root {
+    --verde-escuro: #0F3D2E;
+    --verde-medio: #1B5E44;
+    --dourado: #C9A54E;
+    --creme: #F4F1E8;
+    --texto-escuro: #1A1A1A;
+    --linha: #D8D2C2;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--creme);
+    color: var(--texto-escuro);
+    font-family: 'Georgia', 'Times New Roman', serif;
+    line-height: 1.6;
+  }
+
+  .topo {
+    background: var(--verde-escuro);
+    color: var(--creme);
+    padding: 48px 24px 40px;
+    text-align: center;
+  }
+
+  .topo h1 {
+    font-size: 2rem;
+    letter-spacing: 0.5px;
+    margin: 0 0 8px;
+  }
+
+  .topo p {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.95rem;
+    color: #CFE3D8;
+    margin: 0;
+  }
+
+  .regua {
+    height: 3px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--dourado) 0 12px,
+      transparent 12px 20px
+    );
+  }
+
+  main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  .metodos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+
+  @media (max-width: 640px) {
+    .metodos { grid-template-columns: 1fr; }
+  }
+
+  .metodo-card {
+    background: #fff;
+    border: 1px solid var(--linha);
+    border-radius: 4px;
+    padding: 20px 22px;
+  }
+
+  .metodo-card h2 {
+    font-size: 1.05rem;
+    margin: 0 0 12px;
+    color: var(--verde-escuro);
+    border-bottom: 2px solid var(--dourado);
+    padding-bottom: 8px;
+  }
+
+  .metodo-card ul {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.88rem;
+    padding-left: 18px;
+    margin: 0;
+    color: #333;
+  }
+
+  .metodo-card li { margin-bottom: 8px; }
+
+  .formulario {
+    background: #fff;
+    border: 1px solid var(--linha);
+    border-radius: 4px;
+    padding: 32px;
+  }
+
+  .formulario h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.3rem;
+    margin-top: 0;
+    color: var(--verde-escuro);
+  }
+
+  label {
+    display: block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin: 20px 0 6px;
+    color: var(--verde-escuro);
+  }
+
+  input[type="number"] {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 1rem;
+    font-family: Arial, Helvetica, sans-serif;
+    border: 1px solid var(--linha);
+    border-radius: 3px;
+    background: var(--creme);
+  }
+
+  .opcoes {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .opcao {
+    flex: 1;
+    position: relative;
+  }
+
+  .opcao input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    cursor: pointer;
+  }
+
+  .opcao span {
+    display: block;
+    text-align: center;
+    padding: 14px 8px;
+    border: 1px solid var(--linha);
+    border-radius: 3px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .opcao input:checked + span {
+    background: var(--verde-escuro);
+    border-color: var(--verde-escuro);
+    color: var(--creme);
+  }
+
+  button {
+    width: 100%;
+    margin-top: 28px;
+    padding: 16px;
+    background: var(--dourado);
+    color: var(--verde-escuro);
+    border: none;
+    border-radius: 3px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: filter 0.15s ease;
+  }
+
+  button:hover { filter: brightness(1.08); }
+
+  #resultado {
+    margin-top: 32px;
+    display: none;
+  }
+
+  .linha-resultado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px dashed var(--linha);
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .linha-resultado:last-child { border-bottom: none; }
+
+  .linha-resultado .rotulo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+  }
+
+  .bolinha {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .linha-resultado .valor {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: var(--verde-escuro);
+  }
+
+  .barra {
+    display: flex;
+    height: 10px;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 20px;
+  }
+
+  #aviso {
+    display: none;
+    margin-top: 20px;
+    padding: 14px 16px;
+    background: #FBEAEA;
+    border: 1px solid #E0B4B4;
+    border-radius: 3px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.9rem;
+    color: #7A2E2E;
+  }
+
+  footer {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.8rem;
+    color: #8A8471;
+    padding: 0 24px 40px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="topo">
+    <h1>Calculadora de Planejamento Financeiro</h1>
+    <p>Descubra quanto do seu salário destinar a cada parte da sua vida financeira</p>
+  </div>
+  <div class="regua"></div>
+
+  <main>
+    <div class="metodos">
+      <div class="metodo-card">
+        <h2>Método A — 50/30/20</h2>
+        <ul>
+          <li><strong>50%</strong> Necessidades (aluguel, luz, água, mercado, saúde, transporte)</li>
+          <li><strong>30%</strong> Desejos (lazer, restaurantes, passeios, compras pessoais)</li>
+          <li><strong>20%</strong> Futuro (investimentos, reserva de emergência, dívidas)</li>
+        </ul>
+      </div>
+      <div class="metodo-card">
+        <h2>Método B — 70/20/10</h2>
+        <ul>
+          <li><strong>70%</strong> Essencial (aluguel, luz, água, mercado, saúde, transporte)</li>
+          <li><strong>20%</strong> Supérfluos (lazer, restaurantes, passeios, compras pessoais)</li>
+          <li><strong>10%</strong> Investimentos (dinheiro guardado para investir)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="formulario">
+      <h2>Faça sua simulação</h2>
+
+      <label for="salario">Qual o seu salário atual? (R$)</label>
+      <input type="number" id="salario" placeholder="Ex: 3000" min="0" step="0.01">
+
+      <label>Qual forma de cálculo você deseja?</label>
+      <div class="opcoes">
+        <label class="opcao">
+          <input type="radio" name="tipo" value="A" checked>
+          <span>A — 50/30/20</span>
+        </label>
+        <label class="opcao">
+          <input type="radio" name="tipo" value="B">
+          <span>B — 70/20/10</span>
+        </label>
+      </div>
+
+      <button onclick="calcular()">Calcular</button>
+
+      <div id="aviso"></div>
+
+      <div id="resultado"></div>
+    </div>
+  </main>
+
+  <footer>Calculadora de Planejamento Financeiro — projeto de estudos em Python</footer>
+
+<script>
+// ---------------------------------------------------------------
+// Lógica original em Python (preservada, apenas traduzida para JS):
+//
+// if tipo == 'A':
+//     necessidades = salario * 0.50
+//     desejos = salario * 0.30
+//     futuro = salario * 0.20
+// elif tipo == 'B':
+//     essencial = salario * 0.70
+//     superfluo = salario * 0.20
+//     investimentos = salario * 0.10
+// elif tipo != 'A' and tipo != 'B':
+//     print('Tipo informado não está cadastrado')
+// ---------------------------------------------------------------
+
+function calcular() {
+  const salarioInput = document.getElementById('salario');
+  const salario = parseFloat(salarioInput.value); // igual ao float(input(...)) do Python
+  const tipo = document.querySelector('input[name="tipo"]:checked').value.toUpperCase();
+
+  const aviso = document.getElementById('aviso');
+  const resultado = document.getElementById('resultado');
+
+  // Validação extra (o input do Python também precisava de um número válido)
+  if (isNaN(salario) || salario <= 0) {
+    aviso.style.display = 'block';
+    aviso.textContent = 'Informe um salário válido para continuar.';
+    resultado.style.display = 'none';
+    return;
+  }
+
+  aviso.style.display = 'none';
+
+  let linhas = [];
+  let cores = [];
+
+  if (tipo === 'A') {
+    const necessidades = salario * 0.50;
+    const desejos = salario * 0.30;
+    const futuro = salario * 0.20;
+
+    linhas = [
+      { nome: 'Necessidades (50%)', valor: necessidades, cor: '#0F3D2E' },
+      { nome: 'Desejos (30%)', valor: desejos, cor: '#C9A54E' },
+      { nome: 'Futuro (20%)', valor: futuro, cor: '#7A9E8E' }
+    ];
+  } else if (tipo === 'B') {
+    const essencial = salario * 0.70;
+    const superfluo = salario * 0.20;
+    const investimentos = salario * 0.10;
+
+    linhas = [
+      { nome: 'Essencial (70%)', valor: essencial, cor: '#0F3D2E' },
+      { nome: 'Supérfluos (20%)', valor: superfluo, cor: '#C9A54E' },
+      { nome: 'Investimentos (10%)', valor: investimentos, cor: '#7A9E8E' }
+    ];
+  } else {
+    // Mesmo caso do elif final do Python (tipo desconhecido)
+    aviso.style.display = 'block';
+    aviso.textContent = 'O tipo informado não está cadastrado no nosso sistema.';
+    resultado.style.display = 'none';
+    return;
+  }
+
+  // Monta o resultado na tela
+  let html = '';
+  linhas.forEach(item => {
+    const valorFormatado = item.valor.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    });
+    html += `
+      <div class="linha-resultado">
+        <span class="rotulo">
+          <span class="bolinha" style="background:${item.cor}"></span>
+          ${item.nome}
+        </span>
+        <span class="valor">${valorFormatado}</span>
+      </div>
+    `;
+  });
+
+  // Barra proporcional (elemento visual extra, não existia no script original)
+  html += '<div class="barra">';
+  linhas.forEach(item => {
+    const percentual = (item.valor / salario) * 100;
+    html += `<div style="width:${percentual}%; background:${item.cor}"></div>`;
+  });
+  html += '</div>';
+
+  resultado.innerHTML = html;
+  resultado.style.display = 'block';
+}
+</script>
+
+</body>
+</html>
