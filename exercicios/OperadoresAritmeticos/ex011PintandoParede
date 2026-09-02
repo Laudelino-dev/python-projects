@@ -1,0 +1,8 @@
+# Desafio 11
+# Faça um programa que leia largura e altura de uma parede em metros calcule a área e a quantidade de tinta necessaria para pintar, sabendo que cada litro de tinta pinta uma área de 2 m quadrados
+
+altura = float(input('Qual a altura da parede : '))
+largura = float(input('Qual a largura da parede : '))
+area = altura * largura 
+tinta = float(area/2)
+print('os metros quadrados são {}m² \n e a quantidade de baldes de tintas nescessario serão {} litros.'.format(area, tinta))
