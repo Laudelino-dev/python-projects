@@ -1,0 +1,7 @@
+n= input('digite algo: ')
+print('O que foi digitado: {}'.format(n))
+print('É um Alfaunmerico:', n.isalnum())
+print('É alfabetico: ',n.isalpha())
+print('Esta em maisculo: ', n.isupper())
+print('Esta em minusculo: ',n.islower())
+print('O seu tipo é: ',type(n))
