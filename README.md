@@ -7,6 +7,7 @@ Repositório com projetos e exercícios desenvolvidos durante meus estudos de Py
 | Projeto | Descrição |
 |---|---|
 | [calculadora-planejamento-financeiro](./projetos/calculadora-planejamento-financeiro.py) | Calculadora que ajuda a planejar como dividir o salário mensal, com base nos métodos 50/30/20 e 70/20/10. |
+| [verificadorDeSenha](./projetos/verificadorDeSenha.py) | Verifica se uma senha atende a critérios de segurança (tamanho mínimo, letra maiúscula, minúscula, número e caractere especial), indicando especificamente quais requisitos não foram atendidos. |
 
 ## 📚 Exercícios
 
