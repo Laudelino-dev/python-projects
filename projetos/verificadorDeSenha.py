@@ -9,19 +9,19 @@ print('''A senha deve conter algumas Requerimentos essenciais para ser aceita:
 
 senha = input('Digite uma senha: ').strip() # Solicitando a senha para o usuario.
 
-maiscúlo = senha != senha.lower() # Verificando se possui letra maiscúla na senha.
-minúsculo = senha != senha.upper() # Verificando se possui letra minúscula na senha.
+maisculo = senha != senha.lower() # Verificando se possui letra maiscúla na senha.
+minusculo = senha != senha.upper() # Verificando se possui letra minúscula na senha.
 caracter = len(senha) >= 8 # Verificando se possui no minimo 8 caracteres na senha.
 número = '0' in senha or '1' in senha or '2' in senha or '3' in senha or '4' in senha or '5' in senha or '6' in senha or '7' in senha or '8' in senha or '9' in senha
 cEspecial = '!' in senha or '@' in senha or '#' in senha or '%' in senha or '&' in senha or '*' in senha
 
-if maiscúlo and minúsculo and caracter and número and cEspecial:
+if maisculo and minusculo and caracter and número and cEspecial:
     print('Sua senha foi validada! é uma senha segura!')
 else:
     print('Sua senha não atende os Requerimentos minimos! Tente novamente')
-    if not maiscúlo:
+    if not maisculo:
         print('Sua senha precisa ter no minimo 1 caracter maiscúlo.')
-    if not minúsculo:
+    if not minusculo:
         print('Sua senha precisa ter no minimo 1 caracter minúsculo.')
     if not caracter:
         print('Sua senha precisa ter no minimo 8 caracteres.')
