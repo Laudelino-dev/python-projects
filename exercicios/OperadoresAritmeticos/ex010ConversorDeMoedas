@@ -1,0 +1,13 @@
+#Desafio10
+# Faça um programa que leia quanto uma pessoa tem de dinheiro na carteira e mostre quantos dolares ela pode comprar
+
+real = float(input('Quanto de money você tem ai paizão : R$'))
+dolar = real / 5.10
+euro = real / 5.95
+libra = real / 6.99
+pa = real / 0.004
+
+print('Com essa valor ai você pode comprar {:.2f} dólares.'.format(dolar))
+print('Com esse valor você pode comprar {:.2f} euros.'.format(euro))
+print('Com esse valor você pode comprar {:.2f} libras.'.format(libra))
+print('Com esse valor você pode comprar {:.3f} pesos argentinos.'.format(pa))
